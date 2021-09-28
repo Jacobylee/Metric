@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "metrics",
+    "slug": "metrics",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "metrics"
+}
