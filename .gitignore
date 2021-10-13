@@ -52,3 +52,9 @@ buck-out/
 # Expo
 .expo/
 web-build/
+
+unrelated
+components/CovidDemo.js
+components/ListDemoscreen.js
+components/PhotoID.js
+components/Tipcalculater.js

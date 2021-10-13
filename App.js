@@ -1,8 +1,13 @@
 import * as React from 'react';
-import { Text, View, Button, Image, StyleSheet, TextInput } from 'react-native';
+import { Text, View, Button, Image, StyleSheet, Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Convertor from './components/Convertor';
+import data from './assets/dataset';
+
+const Tab = createBottomTabNavigator();
 
 function HomeScreen({ navigation }) {
   return (
@@ -20,59 +25,114 @@ function HomeScreen({ navigation }) {
 }
 
 function ConvertScreen({ navigation }) {
-  const [value, onChangeText] = React.useState('0');
+  // initialization
+  var dataset = new data()
+  var onpresses = Object.keys(dataset)
+  let convertorView = <View></View>
+  const [model, setModel] = React.useState("");
+  const [history, setHistory] = React.useState([]);
+  // useEffect
+  React.useEffect(() => {getData()}, [])
+  // Async
+  const storeData = async (value) => {
+      try {
+          const jsonValue = JSON.stringify(value)
+          await AsyncStorage.setItem('@history', jsonValue)
+          console.log('just stored ' + jsonValue)
+      } catch (e) {
+          console.log("error in storeData ")
+          console.dir(e)
+      }
+  }
+  const getData = async () => {
+      try {
+          const jsonValue = await AsyncStorage.getItem('@history')
+          let data = null
+          if (jsonValue!=null) {
+              data = JSON.parse(jsonValue)
+              setHistory(data[recent])
+              console.log('just set history')
+          } else {
+              setHistory([])
+              console.log('just read a null value from Storage')
+          }
+      } catch(e) {
+        console.log("error in getData ")
+        console.dir(e)
+      }
+  }
+  // helper function
+  function BigButton(props) {
+    const { onPress, title, style, image } = props;
+    return (
+      <View style={styles.item}>
+          <Pressable style={style} onPress={onPress}>
+            <Image style={styles.tinyLogo}
+                source={image}/>
+          </Pressable>
+          <Text style={styles.text}>{title}</Text>
+      </View>
+    );
+  }
+  function ButtonLine(props) {
+    const { onPresses, style } = props;
+    const first = onPresses[0];
+    const second = onPresses[1];
+    const third = onPresses[2];
+    return (
+      <View style={{ flex: 3, flexDirection:'row'}}>
+        <BigButton title={dataset[first]['title']} image={dataset[first]['image']} style={style} onPress = {() => setModel(first)}></BigButton>
+        <BigButton title={dataset[second]['title']} image={dataset[second]['image']} style={style} onPress = {() => setModel(second)}></BigButton>
+        <BigButton title={dataset[third]['title']} image={dataset[third]['image']} style={style} onPress = {() => setModel(third)}></BigButton>
+      </View>
+    );
+  }
+  // page convert logic
+  if (model!="") {
+    // store data
+    history.push(model)
+    const recent = {recent:history}
+    storeData(recent)
+    convertorView = 
+      <View style={{ flex:14 }}>
+        <View style={{ flex:11 }}>
+          <Convertor _var={model}></Convertor>
+        </View>
+        <View style={{ alignItems: 'center', justifyContent: 'center', flex:3 }}>
+          <Pressable style={{ backgroundColor:'grey', height:60, width:150, borderRadius: 6, alignItems: 'center', justifyContent: 'center' }} onPress={() => setModel('')}>
+            <Text style={styles.text}>BACK</Text>
+          </Pressable>
+        </View>
+      </View>
+  } else {
+    var first = history[history.length-1]
+    convertorView = 
+      <View style={{backgroundColor:'white', flex: 20}}>
+        {history.length==0
+          ?<View></View>
+          :<View style={{ flex: 4}}>
+            <View style={styles.banner}>
+              <Text style={{fontSize: 15}}>  Last Used</Text>
+            </View>
+            <View style={{ flex: 3, flexDirection:'row'}}>
+              <BigButton title={dataset[first]['title']} image={dataset[first]['image']} style={styles.button} onPress = {() => setModel(first)}></BigButton>
+            </View>
+          </View>
+        }
+        <View style={styles.banner}>
+            <Text style={{fontSize: 15}}>  Common Converters</Text>
+        </View>
+        <ButtonLine style={styles.button} onPresses ={onpresses.slice(0,3)}></ButtonLine>
+        <ButtonLine style={styles.button} onPresses ={onpresses.slice(3,6)}></ButtonLine>
+        <ButtonLine style={styles.button} onPresses ={onpresses.slice(1,4)}></ButtonLine>
+        <ButtonLine style={styles.button} onPresses ={onpresses.slice(2,5)}></ButtonLine>
+        <ButtonLine style={styles.button} onPresses ={onpresses.slice(3,6)}></ButtonLine>
+      </View>
+  }
+  // return
   return (
-    <View style={{flex:1}}>
-      <View style={{flex:5, flexDirection:'colunm'}}>
-        <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={styles.convert_text}>Kilometer/Hour</Text>
-        </View>
-        <View style={{flex:3, flexDirection:'row', alignItems: 'center'}}>
-          <View style={{flex:2}}>
-            <TextInput
-              style={styles.text_input}
-              onChangeText={text => onChangeText(text)}
-              value={value}
-            />
-          </View>
-          <View style={{flex:1, alignItems: 'center'}}>
-            <Text style={styles.convert_text}>km/h</Text>
-          </View>
-        </View>
-        <View style={{flex:1}}></View>
-      </View>
-
-      <View style={{flex:5, flexDirection:'colunm'}}>
-        <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={styles.convert_text}>Mile/Hour</Text>
-        </View>
-        <View style={{flex:3, flexDirection:'row', alignItems: 'center'}}>
-          <View style={{flex:2}}>
-            <TextInput
-              style={styles.text_input}
-              onChangeText={text => onChangeText(text)}
-            />
-          </View>
-          <View style={{flex:1, alignItems: 'center'}}>
-            <Text style={styles.convert_text}>mph</Text>
-          </View>
-        </View>
-      </View>
-
-      <View style={{flex:1, flexDirection:'row', justifyContent:'center'}}>
-        <View style={{flex:1}}>
-          <Button
-            title="Go to Home"
-            onPress={() => navigation.navigate('Home')}
-          />
-        </View>
-        <View style={{flex:1}}>
-          <Button
-            title="Convert"
-            onPress={() => navigation.navigate('Home')}
-          />
-        </View>
-      </View>
+    <View style={{ flex: 1, flexDirection:'column' }}>
+      {convertorView}
     </View>
   );
 }
@@ -91,8 +151,6 @@ function AboutScreen({ navigation }) {
   );
 }
 
-const Tab = createBottomTabNavigator();
-
 const styles = StyleSheet.create({
   tinyLogo: {
     width: 50,
@@ -108,6 +166,42 @@ const styles = StyleSheet.create({
     borderColor: 'white', 
     borderWidth: 1 ,
   },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+    borderRadius: 6,
+    elevation: 3,
+  },
+  back: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 62,
+    borderRadius: 6,
+    elevation: 3,
+    backgroundColor: 'blue',
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'black',
+  },
+  item: { 
+    alignItems:'center', 
+    justifyContent:'space-around', 
+    borderWidth:1, 
+    borderColor:'#EFEEF3', 
+    flex: 1,
+  },
+  banner: { 
+    backgroundColor:'#EFEEF3', 
+    flex: 1, 
+    justifyContent:'space-around'
+  }
 });
 
 export default function App() {
