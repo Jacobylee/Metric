@@ -2,12 +2,14 @@ import * as React from 'react';
 import { Text, View, Button, Image, StyleSheet, Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Convertor from './components/Convertor';
 import data from './assets/dataset';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 function HomeScreen({ navigation }) {
   return (
@@ -54,10 +56,10 @@ function ConvertScreen({ navigation }) {
               console.log('just set history')
           } else {
               setHistory([])
-              console.log('just read a null value from Storage')
+              console.log('history: just read a null value from Storage')
           }
       } catch(e) {
-        console.log("error in getData ")
+        console.log("error in get history Data ")
         console.dir(e)
       }
   }
@@ -207,7 +209,7 @@ const styles = StyleSheet.create({
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+       <Tab.Navigator 
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
@@ -235,6 +237,11 @@ export default function App() {
         <Tab.Screen name="Convert" component={ConvertScreen} />
         <Tab.Screen name="About" component={AboutScreen} />
       </Tab.Navigator>
+      {/* <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Welcome' }}/>
+        <Stack.Screen name="Convert" component={ConvertScreen} />
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigator> */}
     </NavigationContainer>
   );
 }

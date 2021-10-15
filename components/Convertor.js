@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import data from "../assets/dataset";
 
 var dataset = new data()
@@ -20,14 +21,48 @@ class Convert {
 }
 
 const Convertor = ({_var}) => {
-    const [input_num, setInput] = useState(0);
+    const [input_num, setInput] = useState('0');
+    const [lastone, setlast] = useState({last:0});
+
     const context = new Convert(_var);
     let input_context = context.getter[0];
     let rate_context = context.getter[1];
     let output_context = context.getter[2];
     let input_addr = context.getter[3];
     let output_addr = context.getter[4];
-
+    // useEffect
+    useEffect(() => {getData()}, [])
+    // Async
+    const storeData = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('@lastinput', jsonValue)
+            console.log('just stored ' + jsonValue)
+        } catch (e) {
+            console.log("last:error in storeData ")
+            console.log(e)
+            console.dir(e)
+        }
+    }
+    const getData = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('@lastinput')
+            let data = null
+            if (jsonValue!=null) {
+                data = JSON.parse(jsonValue)
+                setlast(data)
+                setInput(data.last)
+                console.log('just set input number')
+            } else {
+                setlast({})
+                setInput(0)
+                console.log('just read a null value from Storage')
+            }
+        } catch(e) {
+            console.log("error in getData ")
+            console.dir(e)
+        }
+    }
     return (
         <View style={{flex:1}}>
             <View style={{flex:5, flexDirection:'colunm'}}>
@@ -38,8 +73,10 @@ const Convertor = ({_var}) => {
                 <View style={{flex:2}}>
                     <TextInput
                         style={styles.text_input}
+                        // keyboardType = 'numeric'
                         defaultValue='0'
-                        onChangeText={text => {setInput(text)}}
+                        value={input_num}
+                        onChangeText={text => {setInput(text), setlast({last:text}),storeData({last:text})}}
                     />
                 </View>
                 <View style={{flex:1, alignItems: 'center'}}>
