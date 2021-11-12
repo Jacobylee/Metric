@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { Text, View, Image, StyleSheet, Pressable } from 'react-native';
+import { Text, View, Image, StyleSheet, Pressable, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import data from '../assets/dataset';
+import { useValue } from '../components/valuecontext';
 
 export default function ConverMenuScreen({ navigation }) {
     // initialization
     const [history, setHistory] = React.useState([]);
-    var dataset = new data()
+    const {currentValue} = useValue()
+    const dataset = currentValue
     var onpresses = Object.keys(dataset)
     var first = history[history.length-1]
     // useEffect
@@ -53,7 +54,6 @@ export default function ConverMenuScreen({ navigation }) {
             </View>
         );
     }
-
     function ButtonLine(props) {
         const { onPresses, style } = props;     // list, style
         const first = onPresses[0];
@@ -97,7 +97,7 @@ export default function ConverMenuScreen({ navigation }) {
             </View>
         );
     }
-    
+
     return (
         <View style={{ flex: 1, flexDirection:'column' }}>
             <View style={{backgroundColor:'white', flex: 20}}>
@@ -125,8 +125,8 @@ export default function ConverMenuScreen({ navigation }) {
                 <ButtonLine style={styles.button} onPresses ={onpresses.slice(0,3)}></ButtonLine>
                 <ButtonLine style={styles.button} onPresses ={onpresses.slice(3,6)}></ButtonLine>
                 <ButtonLine style={styles.button} onPresses ={onpresses.slice(6,9)}></ButtonLine>
-                <ButtonLine style={styles.button} onPresses ={onpresses.slice(2,5)}></ButtonLine>
-                <ButtonLine style={styles.button} onPresses ={onpresses.slice(3,6)}></ButtonLine>
+                <ButtonLine style={styles.button} onPresses ={onpresses.slice(9,12)}></ButtonLine>
+                <ButtonLine style={styles.button} onPresses ={onpresses.slice(12,15)}></ButtonLine>
             </View>
         </View>
     )

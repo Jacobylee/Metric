@@ -7,6 +7,8 @@ import AboutScreen from './pages/about';
 import HomeScreen from './pages/home';
 import ConverMenuScreen from './pages/convert_menu';
 import ConvertorRender from './pages/convertor';
+import data from './assets/dataset';
+import ValueProvider from './components/valuecontext'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -21,37 +23,40 @@ function ConvertPart() {
 }
 
 export default function App() {
+  var dataset = new data()
   return (
-    <NavigationContainer>
-       <Tab.Navigator 
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            if (route.name === 'Welcome') {
-              iconName = focused
-                ? 'ios-information-circle'
-                : 'ios-information-circle-outline';
-            } else if (route.name === 'Home') {
-              iconName = focused 
-                ? 'ios-list' 
-                : 'ios-list';
-            } else if (route.name === 'About') {
-              iconName = focused 
-                ? 'ios-information-circle'
-                : 'ios-information-circle-outline';
-            }
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-        })}
-      >
-        <Tab.Screen name="Welcome" component={HomeScreen} />
-        <Tab.Screen name="Home" component={ConvertPart} options={{ headerShown: false }}/>
-        <Tab.Screen name="About" component={AboutScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <ValueProvider value={dataset}>
+      <NavigationContainer>
+        <Tab.Navigator 
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+              if (route.name === 'Welcome') {
+                iconName = focused
+                  ? 'ios-home'
+                  : 'ios-home-outline';
+              } else if (route.name === 'Home') {
+                iconName = focused 
+                  ? 'ios-list' 
+                  : 'ios-list';
+              } else if (route.name === 'About') {
+                iconName = focused 
+                  ? 'ios-information-circle'
+                  : 'ios-information-circle-outline';
+              }
+              // You can return any component that you like here!
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: 'tomato',
+            tabBarInactiveTintColor: 'gray',
+          })}
+        >
+          <Tab.Screen name="Welcome" component={HomeScreen} />
+          <Tab.Screen name="Home" component={ConvertPart} options={{ headerShown: false }}/>
+          <Tab.Screen name="About" component={AboutScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </ValueProvider>
   );
 }
 

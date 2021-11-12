@@ -131,8 +131,8 @@ export default function ConvertorRender({ route, navigation }) {
     return(
         <View style={{ flex:1 }}>
             <Pressable style={[{
-                left:300,
-                top:240,
+                left:'75%',
+                top:'35.5%',
                 zIndex:1, 
                 position: 'absolute', 
                 backgroundColor:'white',
