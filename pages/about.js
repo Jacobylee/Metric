@@ -13,8 +13,8 @@ export default function AboutScreen() {
                 </View>
     return (
         <View style={{flex:1}}>
-        <ScreenTemplate myinfo={info}>
-        </ScreenTemplate>
+            <ScreenTemplate myinfo={info}>
+            </ScreenTemplate>
             <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
                 <Text>This app is used for measurement convertion</Text>
             </View>
