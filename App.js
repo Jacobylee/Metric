@@ -9,6 +9,8 @@ import ConverMenuScreen from './pages/convert_menu';
 import ConvertorRender from './pages/convertor';
 import data from './assets/dataset';
 import ValueProvider from './components/valuecontext'
+import BBViewer from './unrelated/Quiz/BBViewer';
+import Testview from './unrelated/Quiz/test';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
