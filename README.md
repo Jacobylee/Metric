@@ -1,12 +1,13 @@
 # Metric
 Hi, I am a unit conversion app named **Metric** 😄
 # Introduction
+<a><img src="https://github.com/Jacobylee/COSI-153-Metric/blob/master/assets/homepage.PNG" width="300"/></a>
 <a><img src="https://github.com/Jacobylee/COSI-153-Metric/blob/master/screenshot/home.jpg?raw=true" width="300"/></a>
 
 <a><img src="https://github.com/Jacobylee/COSI-153-Metric/blob/master/screenshot/convertor1.jpg?raw=true" width="300"/></a>
 <a><img src="https://github.com/Jacobylee/COSI-153-Metric/blob/master/screenshot/convertor2.jpg?raw=true" width="300"/></a>
 
-<a><img src="https://github.com/Jacobylee/COSI-153-Metric/blob/master/screenshot/about.jpg?raw=true" width="300"/></a>
+<a><img src="https://github.com/Jacobylee/COSI-153-Metric/blob/master/assets/aboutpage.PNG" width="300"/></a>
 
 # Run
     "android": "react-native run-android"
