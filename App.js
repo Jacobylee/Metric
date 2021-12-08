@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, Button } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -9,8 +9,6 @@ import ConverMenuScreen from './pages/convert_menu';
 import ConvertorRender from './pages/convertor';
 import data from './assets/dataset';
 import ValueProvider from './components/valuecontext'
-import BBViewer from './unrelated/Quiz/BBViewer';
-import Testview from './unrelated/Quiz/test';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
