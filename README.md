@@ -1,5 +1,11 @@
 # Metric
 Hi, I am a unit conversion app named **Metric** 😄
+
+As international students in the United States, we often struggle in our lives due to different units of measurement. 
+So I made this app for unit conversion. Users can choose different icons to convert the units they are familiar with
+Hope you like it and make your life easy. Thanks!
+
+Demo Link: [click me](https://drive.google.com/file/d/1hDhYMQyHt3CgNrPfYpsfwecTGRyC0Nnt/view?usp=sharing)
 # Introduction
 <a><img src="https://github.com/Jacobylee/COSI-153-Metric/blob/master/assets/homepage.PNG" width="300"/></a>
 <a><img src="https://github.com/Jacobylee/COSI-153-Metric/blob/master/screenshot/home.jpg?raw=true" width="300"/></a>
